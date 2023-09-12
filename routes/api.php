@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvoktController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +24,31 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/alaa', function () {
     return "alaa";
 });
- Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::get('/',[ApiController::class,'index']) ;
-    Route::post('/add',[ApiController::class,'store']);
-    Route::put('/update/{id}',[ApiController::class,'update']);
-    Route::delete('/delete/{id}',[ApiController::class,'delete']);
+//  Route::group(['middleware' => ['jwt.verify']], function() {
+//     Route::get('/',[ApiController::class,'index']) ;
+//     Route::post('/add',[ApiController::class,'store']);
+//     Route::put('/update/{id}',[ApiController::class,'update']);
+//     Route::delete('/delete/{id}',[ApiController::class,'delete']);
     
-    });
+//     });  // URL Naming & should be plural 
+//-----------------------------------------------------------------------
+    Route::group(['middleware' => ['jwt.verify']], function() {
+        Route::get('/products',[ApiController::class,'index'])->name('products.index') ;
+        Route::post('/products',[ApiController::class,'store'])->name('products.store');
+        Route::put('products/{id}',[ApiController::class,'update'])->name('products.update');
+        Route::delete('/products/{id}',[ApiController::class,'delete'])->name('products.destroy');
+        
+        });
+//--------------------------------------------------------------------------
+        // write controller name ,, and make group function tp all route action 
+    // Route::controller( ApiController::class)->group(function(){
+        // Route::get('/products','index') ;
+        //     Route::post('/products','store');
+        //     Route::put('products/{id}',,'update');
+        //     Route::delete('/products/{id}''delete');
+        
+    //});
+//--------------------------------------------------------------------------
 Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -39,4 +59,15 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class,'userProfile']);  
 });
+//--------------------------------------------------------------------------
+//route&controller Resousre with except and only 
+Route::resource('tests',TestController::class);
+// Route::resource('tests',TestController::class)->except
+// ('index','create');
+// Route::resource('tests',TestController::class)->only
+// ('create');
 
+//---------------------------------------------------------------------
+// Route::get('invok',InvoktController::class);
+Route::get('invok',[InvoktController::class,'__invoke']);
+//-----------------------------------------------------------
