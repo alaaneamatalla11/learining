@@ -12,7 +12,7 @@ class ApiController extends Controller
     {
         $products = Product::get();
             return response()->json([
-            "products" => $products
+                "products" => $products
         ]);
     }
     public function store(Request $request)
