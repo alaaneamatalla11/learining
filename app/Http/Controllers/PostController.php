@@ -35,6 +35,7 @@ class PostController extends Controller
             "body"=>$request->body
         ]);
         return redirect()->route('posts.index');
+        
     }
 
     /**
