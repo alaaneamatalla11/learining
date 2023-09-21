@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Comment as ModelsComment;
+use App\Notifications\CreateComment;
+use Illuminate\Support\Facades\Notification;
 
 class CommentController extends Controller
 {
@@ -37,19 +39,29 @@ class CommentController extends Controller
         //         //     'person' =>  'require'
 
         //         // ]);
+        // $comment =  new Comment();
+        // $comment->about = $request->input('about');
+        // $comment->person = $request->input('person');
+        // // $comment->save();
 
 
-        $comment =  new Comment();
-        $comment->about = $request->input('about');
-        $comment->person = $request->input('person');
-        $comment->save();
-        // // Comment::create([
-        //     'about'=> $request->about,
-        //     'person'=> $request->person
+        $comment= Comment::create([
+            'about'=> $request->about,
+            'person'=> $request->person
 
-        // ]);
+        ]);
         // return response('done');
+        
+        $users = User::first();
+        // $user_create = auth()->username;
+        Notification::send($users , new CreateComment($comment->id));
+
         return redirect()->route('comments.index');
+        // $users = User::find(1);
+        // foreach ($users->unreadNotifications as $notification) {
+        //     $notification->markAsRead();
+
+        // return redirect()->route('comments.index');
         // dd( $request->all());
         // return $request;
 
@@ -61,7 +73,9 @@ class CommentController extends Controller
      */
     public function show(comment $comment)
     {
-        //
+        $notifications = Notification::where('read', false)->get();
+        return view('notifacations', compact('notifications'));
+
     }
 
     /**

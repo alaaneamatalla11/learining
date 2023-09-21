@@ -64,7 +64,7 @@ require __DIR__.'/auth.php';
 
 
 // ELQENT -------------------------------------------------------------------------------
-// Route::resource('comments', CommentController::class);
+Route::resource('comments', CommentController::class);
 
 // // Route::get('/',[CommentController::class,'index'])->name('comments.index');
 // // Route::get('/comments/create',[CommentController::class,'create'])->name('comments.create');
@@ -104,7 +104,10 @@ return view('welcome');
 Route::get('showform', [UploadImages::class,'ShowForm']);
 Route::post('store',[UploadImages::class,'store'])->name('images.store');
 Route::get('showimage', [UploadImages::class,'Show']);
+//-------------------------------------------------------------------
 
+Route::get('/notifications',[CommentController::class,'show']);
+   
 
 
 
