@@ -14,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = DB::table('posts')->get();
-        return view('posts.index',compact('posts'));
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -22,7 +22,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view ('posts.create');
+        return view('posts.create');
     }
 
     /**
@@ -30,19 +30,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'title' => 'required|min:3',
+            'body' => 'required'
+        ]);
         DB::table('posts')->insert([
-            "title"=>$request->title,
-            "body"=>$request->body
+            "title" => $request->title,
+            "body" => $request->body
         ]);
         return redirect()->route('posts.index');
-        
     }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
-    {  
+    {
         // $posts = DB::table('posts')->get();
         // return view('posts.show',compact('posts'));
     }
@@ -52,8 +55,8 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        $posts= DB::table('posts')->where('id', $id)->first();
-        return view ('posts.edit',compact('posts'));
+        $posts = DB::table('posts')->where('id', $id)->first();
+        return view('posts.edit', compact('posts'));
     }
 
     /**
@@ -61,13 +64,12 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $posts= DB::table('posts')->where('id', $id)->update([
-        "title"=>$request->title,
-        "body" =>$request->body 
+        $posts = DB::table('posts')->where('id', $id)->update([
+            "title" => $request->title,
+            "body" => $request->body
 
         ]);
         return redirect()->route('posts.index');
-
     }
 
     /**
@@ -75,9 +77,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        
-        $posts= DB::table('posts')->where('id', $id)->delete();
-                return redirect()->route('posts.index');
 
+        $posts = DB::table('posts')->where('id', $id)->delete();
+        return redirect()->route('posts.index');
     }
 }

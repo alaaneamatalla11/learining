@@ -78,7 +78,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $comment =  new Comment();
+        $comment = Comment::findOrFail($id);
         // $comment->about = $request->input('about');
         // $comment->person = $request->input('person');
         // $comment->save();

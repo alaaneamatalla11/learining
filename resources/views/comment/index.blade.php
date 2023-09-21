@@ -17,10 +17,11 @@
                     <td>{{ $comment->about }}</td>
                     <td>{{ $comment->person }}</td>
                     <td>
-                        {{-- <a href="{{ route('comments.edit', $comment->id) }}" >Edit</a> --}}
-                        <form action="{{ route('comments.edit' ,$comment->id)}}" method="POST">
+                        <a href="{{ route('comments.edit', $comment->id) }}" >Edit</a>
+                        {{-- <form action="{{ route('comments.edit' ,$comment->id)}}" method="get">
                             <button type="submit">Edit</button>
-                        </form>
+                            @method('DELETE')
+                        </form> --}}
                         <form action="{{ route('comments.destroy' ,$comment->id)}}" method="POST">
                             @method('DELETE')
                             @csrf

@@ -73,9 +73,9 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cloth()
+    public function cloths()
     {
-        return $this->hasMany(Cloths::class);
+        return $this->hasMany(Cloth::class);
     }
     /**
      * The roles that belong to the User
